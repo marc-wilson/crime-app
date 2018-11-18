@@ -1,4 +1,4 @@
-#Harvard Crime App
+# Harvard Crime App
 The Harvard Crime App is a data driven web application that leverages predictive models
 and charts to visualize Chicago, Illinois crime data. Within the Harvard Crime App, users will
 be able to create a profile and save custom reports to create specific datasets to visualize.
@@ -7,23 +7,23 @@ the progress and status of the crime. Given that we don't want to send fake crim
 to the Chicago Police Department, this form will simply create the crime reported in the database
 and not actually inform any actual authorities.
 
-##Pages and Routes
+## Pages and Routes
 
-####Signup (/signup)
+#### Signup (/signup)
 The Sign Up route will serve as our main user onboarding page. The signup route will allow
 users to create an account which will enable them to save custom reports to their profile.
 A user will consist of an **email**, **username**, and **pasword**.
 
-####Login (/login)
+#### Login (/login)
 A login page will be provided for users to login and authenticate with the server. The SHA256
 Cryptographic Hash Algorithm will be used to authenticate the user input with credentials stored
 in the database.
 
-####Logout (/logout)
+#### Logout (/logout)
 Functionality to logout from the application will be provided. Once logged out, the session
 will be cleared all all user-specific data.
 
-####Main/Home (/home)
+#### Main/Home (/home)
 The home page will act as the main focal point of the Crime App. Within the landing page, users
 will be able to analyze data by providing filters to narrow down the data in order to find what
 they are looking for. Users will have the option to save these filters into a custom report for
@@ -40,18 +40,18 @@ The data in which we will provide visualizations on will be for Crime Type, Crim
 Crime Frequency.
 
 
-####Forecasting (/forecasting)
+#### Forecasting (/forecasting)
 Within the Crime App, a user may want to see a more predictive visualization based on crime trends.
 A page will be provided to show what time types are predicted to happen within the immediate future
 and be able to apply filters if desired.
 
-####Profile (/profile)
+#### Profile (/profile)
 During the lifespan of a user visit to the application, there will be an available page for a user
 to manage their profile which includes saved reports and crime that were reported by the user. This
 page will be secure meaning that access to the page is restricted by the user profile.
 
 
-##Members and Contributors
+## Members and Contributors
 The creators and owners of the application are Kristen, Clair and Marc. The division of labor for 
 the development cycle is as follows:
 
@@ -69,7 +69,8 @@ parallel covering data science, front end and backend areas. We have full expect
 all be helping each other out and working together as a team to reach our final goal of projection
 completion.
 
-##High Level Task Estimates
+## High Level Task Estimates
+
 | Task                          | Description                                                                     | Estimate |
 |-------------------------------|---------------------------------------------------------------------------------|----------|
 | Create DB                     | Create the database in Heroku (PostgreSQL)                                      | 1        |
