@@ -5,7 +5,7 @@ be able to create a profile and save custom reports to create specific datasets 
 In addition, users will be able to report a crime by filling out a simple form and and monitor
 the progress and status of the crime. Given that we don't want to send fake crime reports off
 to the Chicago Police Department, this form will simply create the crime reported in the database
-and not actually inform any actual authorities.
+and not actually inform any authorities.
 
 ## Pages and Routes
 
@@ -21,13 +21,13 @@ in the database.
 
 #### Logout (/logout)
 Functionality to logout from the application will be provided. Once logged out, the session
-will be cleared all all user-specific data.
+will be cleared of all user-specific data.
 
 #### Main/Home (/home)
 The home page will act as the main focal point of the Crime App. Within the landing page, users
 will be able to analyze data by providing filters to narrow down the data in order to find what
 they are looking for. Users will have the option to save these filters into a custom report for
-use later. This will enabled users to easily compile reports they are interested in and be able
+use later. This will enable users to easily compile reports they are interested in and be able
 to view those reports without having to re-enter filters every time.
 
 Aside from viewing visualized data, users will also be able to download the dataset in its raw
@@ -42,13 +42,13 @@ Crime Frequency.
 
 #### Forecasting (/forecasting)
 Within the Crime App, a user may want to see a more predictive visualization based on crime trends.
-A page will be provided to show what time types are predicted to happen within the immediate future
+A page will be provided to show what crime types are predicted to happen within the immediate future
 and be able to apply filters if desired.
 
 #### Profile (/profile)
 During the lifespan of a user visit to the application, there will be an available page for a user
-to manage their profile which includes saved reports and crime that were reported by the user. This
-page will be secure meaning that access to the page is restricted by the user profile.
+to manage their profile which includes saved reports and crimes that were reported by the user. This
+page will be secure, meaning that access to the page is restricted to the users data and not others.
 
 
 ## Members and Contributors
@@ -68,6 +68,12 @@ Essentially, we have broken down the tasks to create the application in a manner
 parallel covering data science, front end and backend areas. We have full expectations that we will
 all be helping each other out and working together as a team to reach our final goal of projection
 completion.
+
+## Data Sources / References
+
+- [Main Data Set: Chicago Crimes - 2001 to Present](https://catalog.data.gov/dataset/crimes-2001-to-present-398a4)
+- [Chicago IUCR Codes](https://data.cityofchicago.org/widgets/c7ck-438e)
+
 
 ## High Level Task Estimates
 
