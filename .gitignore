@@ -1,2 +1,4 @@
 my_venv
 .idea
+*.csv
+.ipynb_checkpoints
