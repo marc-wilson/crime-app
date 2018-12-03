@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <script src="https://d3js.org/d3.v4.min.js"></script> 
+    <header class="masthead d-flex">
+    <div class="container my-auto">   
+	  <div class="col-sm-5">
+    <h1 class="mb-2">Welcome {{ session_username }}</h1>    
+      {% if session_username is defined %}
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-2" role="group" aria-label="First group">     
+        <form action="/profile/{{ session_username }}" method="GET">
+          <button type="submit" class="btn-secondary">Saved</button> 
+        </form>
+      </div>
+      <div class="btn-group mr-2" role="group" aria-label="Second group">
+
+
+        <form action="/logout" method="POST">
+          <button type="submit" class="btn-secondary"> Log out</button> 
+        </form>
+      </div>
+      </div>
+     
+      {% else %}
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-2" role="group" aria-label="First group">
+        <form action="/login" method="GET">
+          <button type="submit" class="btn-primary"> Log in</button> 
+        </form>&nbsp; 
+
+      </div> 
+      <div class="btn-group mr-2" role="group" aria-label="Second group">         
+        <form action="/signup" method="GET">
+          <button type="submit" class="btn-secondary"> Sign up </button> 
+        </form>
+      </div>  
+      </div>
+      
+      {% endif %}
+      <svg width="400" height="230" id="donutChart"></svg><br><br>
+      <svg width="400" height="250" id="scatterChart"></svg>
+
+    </div>
+
+  </div>
+</header>
+
+{% endblock %}
