@@ -2,3 +2,4 @@ my_venv
 .idea
 *.csv
 .ipynb_checkpoints
+.DS_Store
