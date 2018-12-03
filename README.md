@@ -47,8 +47,7 @@ Crime Frequency.
 
 #### Forecasting (/forecasting)
 Within the Crime App, a user may want to see a more predictive visualization based on crime trends.
-A page will be provided to show what crime types are predicted to happen within the immediate future
-and be able to apply filters if desired.
+A page will be provided to show a predictive visualization of crimes to be reported in the future.
 
 #### Profile (/profile)
 During the lifespan of a user visit to the application, there will be an available page for a user
@@ -84,15 +83,15 @@ completion.
 
 | Complete | Task                          | Description                                                                     | Estimate |
 |----------|-------------------------------|---------------------------------------------------------------------------------|----------|
-|   [ ]    | Create DB                     | Create the database in Heroku (PostgreSQL)                                      | 1        |
-|   [ ]    | Create cases table            | Create the main table which will hold the raw data of Chicago crimes            | 1        |
+|   [X]    | Create DB                     | Create the database in Heroku (PostgreSQL)                                      | 1        |
+|   [X]    | Create cases table            | Create the main table which will hold the raw data of Chicago crimes            | 1        |
 |   [ ]    | Create users table            | Create the users table to store users                                           | 1        |
 |   [ ]    | Create saved reports table    | Create the table which will store saved reports                                 | 1        |
 |   [ ]    | Create models for tables      | Create models for User, Case, Report                                            | 2        |
 |   [ ]    | Connect Database to Flask     | Create the connectivity between the flask app and the heroku db                 | 1        |
 |   [ ]    | Create db queries             | Create the necessary database queries for the app                               | 3        |
-|   [ ]    | Create project                | Create the project structure and repository for the app.(GitHub/Heroku)         | 2        |
-|   [ ]    | Create the Python Notebook    | Create python notebook used for predictive modeling                             | null     |
+|   [X]    | Create project                | Create the project structure and repository for the app.(GitHub/Heroku)         | 2        |
+|   [X]    | Create the Python Notebook    | Create python notebook used for predictive modeling                             | 15       |
 |   [ ]    | Sign up route                 | Create sign up route                                                            | 1        |
 |   [ ]    | Sign up page                  | Create the html template, style and design for login page                       | 2        |
 |   [ ]    | Logout route                  | Create the logout route                                                         | 1        |
