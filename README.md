@@ -12,7 +12,7 @@ and not actually inform any authorities.
 #### Signup (/signup)
 The Sign Up route will serve as our main user onboarding page. The signup route will allow
 users to create an account which will enable them to save custom reports to their profile.
-A user will consist of an **email**, **username**, and **pasword**.
+A user will consist of an **email**, **username**, and **password**.
 
 #### Login (/login)
 A login page will be provided for users to login and authenticate with the server. The SHA256
@@ -78,20 +78,28 @@ completion.
 - [Main Data Set: Chicago Crimes - 2001 to Present](https://catalog.data.gov/dataset/crimes-2001-to-present-398a4)
 - [Chicago IUCR Codes](https://data.cityofchicago.org/widgets/c7ck-438e)
 
+![ERD](erd.png)
 
-## High Level Task Estimates
+
+## Process Book
 
 | Complete | Task                          | Description                                                                     | Estimate |
 |----------|-------------------------------|---------------------------------------------------------------------------------|----------|
 |   [X]    | Create DB                     | Create the database in Heroku (PostgreSQL)                                      | 1        |
 |   [X]    | Create cases table            | Create the main table which will hold the raw data of Chicago crimes            | 1        |
+|   [X]    | Acquire IUCR Data             | Obtain the data for IUCR codes just in case we need it                          | 1        |
+|   [X]    | Create predictive model       | Create a predictive model that predicts amount of crimes to happen in future    | 15       |
+|   [X]    | Create exploration notebook   | Create an exploratory notebook to explore data                                  | 5        |
+|   [X]    | Create ERD for Crimes         | Create database diagram for crimes table                                        | 2        |
+|   [X]    | Create GitHub repo            | Create the GitHub Repo                                                          | 1        |
+|   [X]    | Import Crimes Data            | Import crime cases into cases table                                             | 5        |
+|   [X]    | Create Data Import Script     | Create Python script to import data from csv into postgresql                    | 1        |
 |   [ ]    | Create users table            | Create the users table to store users                                           | 1        |
 |   [ ]    | Create saved reports table    | Create the table which will store saved reports                                 | 1        |
 |   [ ]    | Create models for tables      | Create models for User, Case, Report                                            | 2        |
 |   [ ]    | Connect Database to Flask     | Create the connectivity between the flask app and the heroku db                 | 1        |
 |   [ ]    | Create db queries             | Create the necessary database queries for the app                               | 3        |
 |   [X]    | Create project                | Create the project structure and repository for the app.(GitHub/Heroku)         | 2        |
-|   [X]    | Create the Python Notebook    | Create python notebook used for predictive modeling                             | 15       |
 |   [ ]    | Sign up route                 | Create sign up route                                                            | 1        |
 |   [ ]    | Sign up page                  | Create the html template, style and design for login page                       | 2        |
 |   [ ]    | Logout route                  | Create the logout route                                                         | 1        |
@@ -110,3 +118,13 @@ completion.
 |   [ ]    | Create Profile route          | Create the route for the profile page                                           | 3        |
 |   [ ]    | Create Profile page           | Create the html, css and js for the profile page                                | 5        |
 |   [ ]    | Create profile json endpoints | Create the json endpoint needed to execute CRUD operations on saved reports     | 5        |
+
+
+
+#### Project Milestone 1 (12/3/2018)
+At the end of the first milestone, we were able to acquire the data for Chicago Crimes from 2001 - present. Data is still being uploaded
+as it's a long process since there are over 6 million records. Although there is still data to upload, we are not blocked by any lack of
+data as the python notebooks for the exploration, cleansing and formatting were done through the CSV.
+
+In addition, we were able to create basic forecasting models for predicting the amount of crimes that will happen in the future. We were
+also able to get a much better understanding on our target visualizations and how we will model them.

@@ -6,7 +6,7 @@ connection = psycopg2.connect(host='ec2-50-17-203-51.compute-1.amazonaws.com', p
                               password='58ec71e5deca626dea647631b65719669587a5b56f69c6b7072dceeeda368d29')
 cur = connection.cursor()
 
-df_crime_data = pd.read_csv('data/crimes_2018.csv')
+df_crime_data = pd.read_csv('data/crimes_2017.csv')
 print(df_crime_data.isna().any())
 for idx, c in df_crime_data.iterrows():
     try:
