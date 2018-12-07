@@ -1,0 +1,26 @@
+#signup {
+  height: 100%;
+  main {
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    #formContainer {
+      width: 400px;
+      margin: auto;
+      header {
+        border-bottom: 0.5px solid lightgray;
+        margin-bottom: 30px;
+      }
+      main {
+        form {
+          input { width: 100%; }
+          #submitContainer {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

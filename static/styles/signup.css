@@ -1,0 +1,20 @@
+#signup {
+  height: 100%; }
+  #signup main {
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    align-items: center; }
+    #signup main #formContainer {
+      width: 400px;
+      margin: auto; }
+      #signup main #formContainer header {
+        border-bottom: 0.5px solid lightgray;
+        margin-bottom: 30px; }
+      #signup main #formContainer main form input {
+        width: 100%; }
+      #signup main #formContainer main form #submitContainer {
+        text-align: right; }
+
+/*# sourceMappingURL=signup.css.map */

@@ -3,3 +3,5 @@ my_venv
 *.csv
 .ipynb_checkpoints
 .DS_Store
+.sass-cache
+*.css.map
