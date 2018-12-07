@@ -94,7 +94,7 @@ completion.
 |   [X]    | Create GitHub repo            | Create the GitHub Repo                                                          | 1        |
 |   [X]    | Import Crimes Data            | Import crime cases into cases table                                             | 5        |
 |   [X]    | Create Data Import Script     | Create Python script to import data from csv into postgresql                    | 1        |
-|   [ ]    | Create users table            | Create the users table to store users                                           | 1        |
+|   [X]    | Create users table            | Create the users table to store users                                           | 1        |
 |   [ ]    | Create saved reports table    | Create the table which will store saved reports                                 | 1        |
 |   [ ]    | Create models for tables      | Create models for User, Case, Report                                            | 2        |
 |   [ ]    | Connect Database to Flask     | Create the connectivity between the flask app and the heroku db                 | 1        |

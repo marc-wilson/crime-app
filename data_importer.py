@@ -19,7 +19,7 @@ for idx, c in df_crime_data.iterrows():
         connection.commit()
     except:
         with open('misses.txt', 'a') as myFile:
-            myFile.write(c['ID'])
+            myFile.write(c['case_id'])
             myFile.close()
 
 cur.close()
