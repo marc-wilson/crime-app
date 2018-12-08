@@ -1,35 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
-<section class="content-section">
-    <div class="container text-center">
-        <div class="mx-auto">
+    <link rel="stylesheet" href="../static/styles/login.css"/>
+    <section id="login">
+        <main>
+            <div id="formContainer">
+                <header>
+                    <h3>Login</h3>
+                </header>
+                <main>
+                    <form method="POST" action="/login">
+                        <div class="form-group">
+                            <label for="username">Email</label>
+                            <input type="email" id="username" name="username" placeholder="johndoe@domain.com" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"/>
+                        </div>
+                        <div id="submitContainer">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </main>
+            </div>
+        </main>
+    </section>
 
-    <h1>Log In</h1>
-     
-	   <p class="lead mb-3">Enter your username and password</p>
-
-			<form method="POST" action="/login" novalidate>
-			    {{ form.hidden_tag() }}
-
-			    <div class="form-group">
-			        {{ form.username.label }}<br>
-			        {{ form.username(size=32) }}<br>
-			        {% for error in form.username.errors %}
-			        <span style="color: red;">[{{ error }}]</span>
-			        {% endfor %}
-			    </div>
-			    <div class="form-group">
-			        {{ form.password.label }}<br>
-			        {{ form.password(size=32) }}<br>
-			        {% for error in form.password.errors %}
-			        <span style="color: red;">[{{ error }}]</span>
-			        {% endfor %}
-			   </div>
-			    {{ form.submit(class="btn btn-primary btn-xl") }}
-			</form>
-			
-			<p>New User? <a href="{{ url_for('signup') }}">Click to Register!</a></p>
-    </div>
-  </div>
-</section>
 {% endblock %}

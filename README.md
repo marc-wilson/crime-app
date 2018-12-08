@@ -97,14 +97,14 @@ completion.
 |   [X]    | Create users table            | Create the users table to store users                                           | 1        |
 |   [ ]    | Create saved reports table    | Create the table which will store saved reports                                 | 1        |
 |   [ ]    | Create models for tables      | Create models for User, Case, Report                                            | 2        |
-|   [ ]    | Connect Database to Flask     | Create the connectivity between the flask app and the heroku db                 | 1        |
+|   [X]    | Connect Database to Flask     | Create the connectivity between the flask app and the heroku db                 | 1        |
 |   [ ]    | Create db queries             | Create the necessary database queries for the app                               | 3        |
 |   [X]    | Create project                | Create the project structure and repository for the app.(GitHub/Heroku)         | 2        |
-|   [ ]    | Sign up route                 | Create sign up route                                                            | 1        |
-|   [ ]    | Sign up page                  | Create the html template, style and design for login page                       | 2        |
-|   [ ]    | Logout route                  | Create the logout route                                                         | 1        |
-|   [ ]    | Login route                   | Create the login route                                                          | 1        |
-|   [ ]    | Login Page                    | Create login form/page                                                          | 2        |
+|   [X]    | Sign up route                 | Create sign up route                                                            | 1        |
+|   [X]    | Sign up page                  | Create the html template, style and design for login page                       | 2        |
+|   [X]    | Logout route                  | Create the logout route                                                         | 1        |
+|   [X]    | Login route                   | Create the login route                                                          | 1        |
+|   [X]    | Login Page                    | Create login form/page                                                          | 2        |
 |   [ ]    | Main route                    | Create the main route (/home)                                                   | 2        |
 |   [ ]    | Crime Type JSON endpoint      | Create endpoint to return crime types in json format (for visualization)        | 3        |
 |   [ ]    | Crime by Area JSON endpoint   | Create endpoint to return crimes by area in json format (for visualization)     | 4        |

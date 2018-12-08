@@ -1,48 +1,46 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="../static/styles/layout.css" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Harvard Crime App</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="{{ url_for('index') }}">Home</a>
+            <a class="p-2 text-dark" href="#">Saved Reports</a>
+            <a class="p-2 text-dark" href="#">Forecasting</a>
+        </nav>
+        {% if 'username' in session %}
+            <form method="POST" action="/logout">
+                <button type="submit" class="btn btn-outline-primary">Logout</button>
+            </form>
 
-    <meta http-equiv="cache-control" content="max-age=0">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="-1">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% else %}
+            <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Login</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('signup') }}">Sign up</a>
+        {% endif %}
 
-    <head>
-
-    <link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,400italic,700' rel='stylesheet' type='text/css'>
-  
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" /> 
-    <link href="{{ url_for('static', filename='css/leaflet.css') }}" rel="stylesheet" /> 
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" /> 
-
-          {% if title %}
-          <title>Chicago Crime - {{ title }}</title>
-          {% else %}
-          <title>Chicago Crime</title>
-          {% endif %}
-
-    </head>
-    <body>
-        <div class="conatiner">
-            <hr>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <ul class=flashes>
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            {% endwith %}
- 
-            {% block content %}
-            {% endblock %}
-
-        </div>
-
-    <link href="{{ url_for('static', filename='js/jquery.min.js') }}" /> 
-    <link href="{{ url_for('static', filename='js/bootstrap.min.js') }}" /> 
-
-    </body>
+    </div>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<footer>Footer</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
 </html>

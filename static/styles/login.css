@@ -1,0 +1,20 @@
+#login {
+  height: 100%; }
+  #login main {
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    align-items: center; }
+    #login main #formContainer {
+      width: 400px;
+      margin: auto; }
+      #login main #formContainer header {
+        border-bottom: 0.5px solid lightgray;
+        margin-bottom: 30px; }
+      #login main #formContainer main form input {
+        width: 100%; }
+      #login main #formContainer main form #submitContainer {
+        text-align: right; }
+
+/*# sourceMappingURL=login.css.map */

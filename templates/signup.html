@@ -1,33 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
+    <link rel="stylesheet" href="../static/styles/signup.css"/>
+    <section id="signup">
+        <main>
+            <div id="formContainer">
+                <header>
+                    <h3>Sign Up</h3>
+                </header>
+                <main>
+                    <form method="POST" action="/signup">
+                        <div class="form-group">
+                            <label for="username">Email</label>
+                            <input type="email" id="username" name="username" placeholder="johndoe@domain.com" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"/>
+                        </div>
+                        <div id="submitContainer">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </div>
+                    </form>
+                </main>
+            </div>
+        </main>
+    </section>
 
-<section class="content-section">
-      <div class="container text-center">
-         <div class="mx-auto">
-
-    <h1>Sign Up</h1>
-     <p class="lead mb-3">Enter your username and password</p>
-      <form method="POST" action="/signup" novalidate>
-          {{ form.hidden_tag() }}
-          <div class="form-group">
-              {{ form.username.label }}<br>
-              {{ form.username(size=32) }}<br>
-              {% for error in form.username.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-          </div>
-
-          <div class="form-group">
-              {{ form.password.label }}<br>
-              {{ form.password(size=32) }}<br>
-              {% for error in form.password.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-          </div>
-         {{ form.submit(class="btn btn-primary btn-xl") }}
-      </form>
-</div>
-</div>
-</section>
-    
 {% endblock %}
