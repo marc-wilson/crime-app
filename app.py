@@ -1,7 +1,9 @@
-from flask import Flask, render_template, redirect, url_for, request, session
-from models import db, User
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
+from models import db, User, Case
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
+import json
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.secret_key = 'shhhhitsasecret'
@@ -36,7 +38,7 @@ def signup():
         password = request.form['password']
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            # Username already exists. Do something meaninful
+            # TODO: Username already exists. Do something meaninful
             return redirect(url_for('signup'))
         else:
             user = User(username=username, password=sha256_crypt.hash(password))
@@ -71,6 +73,61 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+
+# Saved Reports
+@app.route('/saved-reports', methods=['GET', 'POST'])
+def saved_reports():
+    if request.method == 'GET':
+        return render_template('saved-reports.html')
+
+
+# Forecast
+@app.route('/forecast', methods=['GET'])
+def forecast():
+    if request.method == 'GET':
+        return render_template('forecast.html')
+
+
+############# API ENDPOINTS #############
+
+# Get Crimes By Year
+@app.route('/api/breakdown/year')
+def crimes_by_year():
+    breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
+    ret = []
+    for b in breakdown:
+        ret.append({
+            'year': int(b[0]),
+            'count': int(b[1])
+        })
+    return jsonify(ret)
+
+
+# Get Crimes by Type
+@app.route('/api/breakdown/type')
+def crimes_by_type():
+    breakdown = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).all()
+    ret = []
+    for b in breakdown:
+        ret.append({
+            'type': b[0],
+            'count': int(b[1])
+        })
+    return jsonify(ret)
+
+
+# Get Crimes by District
+@app.route('/api/breakdown/district')
+def crimes_by_district():
+    breakdown = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).all()
+    ret = []
+    for b in breakdown:
+        ret.append({
+            'district': int(b[0]),
+            'count': int(b[1])
+        })
+    return jsonify(ret)
 
 
 if __name__ == '__main__':

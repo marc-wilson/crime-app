@@ -13,8 +13,8 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Harvard Crime App</h5>
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="{{ url_for('index') }}">Home</a>
-            <a class="p-2 text-dark" href="#">Saved Reports</a>
-            <a class="p-2 text-dark" href="#">Forecasting</a>
+            <a class="p-2 text-dark" href="{{ url_for('saved_reports') }}">Saved Reports</a>
+            <a class="p-2 text-dark" href="{{ url_for('forecast') }}">Forecast</a>
         </nav>
         {% if 'username' in session %}
             <form method="POST" action="/logout">
