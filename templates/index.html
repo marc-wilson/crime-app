@@ -8,7 +8,9 @@
         <title>Title</title>
     </head>
     <body>
-    <button class="btn btn-primary">Test</button>
+    {%  if session_username is defined %}
+        <h1>Welcome, {{ session_username }}</h1>
+    {% endif %}
     </body>
     </html>
 

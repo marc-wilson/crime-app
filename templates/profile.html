@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+  {% block content %}
+
+    <section class="content-section">
+        <div class="container text-center">
+          {% if user is defined %}
+          <div class="row">
+
+          <h1> {{ user.username }}'s Profile </h1>
+
+          <form action="/index" method="GET">
+            <button type="submit" class="btn-secondary">Home</button> 
+          </form>
+        </div>
+        <br>
+
+        {% else %}
+        
+        <div class="row">
+          <h1> User Not Found </h1>
+
+          <form action="/index" method="GET">
+            <button type="submit" class="btn-secondary">Home</button> 
+          </form>
+        </div>
+        {% endif %}
+      </div>
+  </section>
+{% endblock %}
