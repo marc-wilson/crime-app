@@ -2,7 +2,6 @@
 {% block content %}
 
     <!DOCTYPE html>
-    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
@@ -11,7 +10,12 @@
     {%  if session_username is defined %}
         <h1>Welcome, {{ session_username }}</h1>
     {% endif %}
+    <svg width="500" height="500" id="barChart"></svg>
+    <svg width="500" height="500" id="donutChart"></svg>
+    <svg width="500" height="500" id="scatterChart"></svg>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js"></script>
+    <script src="static/js/year_type_district.js"></script>
     </body>
-    </html>
+
 
 {% endblock %}
