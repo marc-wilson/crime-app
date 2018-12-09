@@ -1,17 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
     <body>
     {%  if session_username is defined %}
         <h1>Welcome, {{ session_username }}</h1>
     {% endif %}
     </body>
-    </html>
 
 {% endblock %}

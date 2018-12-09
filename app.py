@@ -25,9 +25,9 @@ def redir():
 def index():
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
-        return render_template('index.html', session_username=user.username)
+        return render_template('index.html', title='Home', session_username=user.username)
     else:
-        return render_template('index.html')
+        return render_template('index.html', title='Home')
 
 
 # Signup
@@ -46,7 +46,7 @@ def signup():
             db.session.commit()
             return redirect(url_for('index'))
     else:
-        return render_template('signup.html')
+        return render_template('signup.html', title="Sign Up")
 
 
 # Login
@@ -65,7 +65,7 @@ def login():
             # TODO: Invalid Credentials
             return redirect(url_for('login'))
     else:
-        return render_template('login.html', form=LoginForm())
+        return render_template('login.html', title="Log In", form=LoginForm())
 
 
 # Logout
@@ -79,14 +79,14 @@ def logout():
 @app.route('/saved-reports', methods=['GET', 'POST'])
 def saved_reports():
     if request.method == 'GET':
-        return render_template('saved-reports.html')
+        return render_template('saved-reports.html', title="Saved Reports")
 
 
 # Forecast
 @app.route('/forecast', methods=['GET'])
 def forecast():
     if request.method == 'GET':
-        return render_template('forecast.html')
+        return render_template('forecast.html', title="Forecast")
 
 
 ############# API ENDPOINTS #############
