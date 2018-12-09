@@ -4,6 +4,5 @@ my_venv
 .ipynb_checkpoints
 .DS_Store
 .sass-cache
-*.css.map
 myvenv
 __pycache__
