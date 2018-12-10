@@ -23,23 +23,14 @@ def redir():
 # Index
 @app.route('/index')
 def index():
-    years = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
-    yearOptions = set()
-    for y in years:
-        yearOptions.add(y[0])
-    yearOptions = sorted(list(yearOptions))
+    yearOptions = db.session.query(Case.year).group_by(Case.year).distinct().all()
+    yearOptions = sorted([y[0] for y in yearOptions])
 
-    types = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).all()
-    typeOptions = set()
-    for t in types:
-        typeOptions.add(t[0])
-    typeOptions = sorted(list(typeOptions))
+    typeOptions = db.session.query(Case.primary_type).distinct().all()
+    typeOptions = sorted(t[0] for t in typeOptions)
 
-    districts = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).all()
-    districtOptions = set()
-    for d in districts:
-        districtOptions.add(d[0])
-    districtOptions = sorted(list(districtOptions))
+    districtOptions = db.session.query(Case.district).distinct().all()
+    districtOptions = sorted(d[0] for d in districtOptions)
 
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
