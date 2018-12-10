@@ -5,3 +5,5 @@ my_venv
 .DS_Store
 .sass-cache
 *.css.map
+myvenv
+__pycache__
