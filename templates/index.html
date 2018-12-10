@@ -8,38 +8,43 @@
             {% endif %}
         </div>
         <section id="filtersContainer">
-            <div id="inputs">
-                <div class="input-container">
-                    <label for="typeFilter">Crime Type</label>
-                    <input list="typeFilterOptions" id="typeFilter" name="typeFilter" class="form-control"
-                           placeholder="All"/>
-                    <datalist id="typeFilterOptions">
-                        {% for t in typeOptions %}
-                            <option value="{{ t }}">
-                        {% endfor %}
-                    </datalist>
+            <form method="POST" action="/search">
+                <div id="inputs">
+                    <div class="input-container">
+                        <label for="typeFilter">Crime Type</label>
+                        <input list="typeFilterOptions" id="typeFilter" name="typeFilter" class="form-control"
+                               placeholder="All"/>
+                        <datalist id="typeFilterOptions">
+                            {% for t in typeOptions %}
+                                <option value="{{ t }}">
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="input-container">
+                        <label for="yearFilter">Year</label>
+                        <input list="yearFilterOptions" id="yearFilter" name="yearFilter" class="form-control"
+                               placeholder="All"/>
+                        <datalist id="yearFilterOptions">
+                            {% for y in yearOptions %}
+                                <option value="{{ y }}">
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="input-container">
+                        <label for="districtFilter">District</label>
+                        <input list="districtFilterOptions" id="districtFilter" name="districtFilter" class="form-control"
+                               placeholder="All"/>
+                        <datalist id="districtFilterOptions">
+                            {% for d in districtOptions %}
+                                <option value="{{ d }}">
+                            {% endfor %}
+                        </datalist>
+                    </div>
                 </div>
-                <div class="input-container">
-                    <label for="yearFilter">Year</label>
-                    <input list="yearFilterOptions" id="yearFilter" name="yearFilter" class="form-control"
-                           placeholder="All"/>
-                    <datalist id="yearFilterOptions">
-                        {% for y in yearOptions %}
-                            <option value="{{ y }}">
-                        {% endfor %}
-                    </datalist>
+                <div id="submitContainer">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
-                <div class="input-container">
-                    <label for="districtFilter">District</label>
-                    <input list="districtFilterOptions" id="districtFilter" name="districtFilter" class="form-control"
-                           placeholder="All"/>
-                    <datalist id="districtFilterOptions">
-                        {% for d in districtOptions %}
-                            <option value="{{ d }}">
-                        {% endfor %}
-                    </datalist>
-                </div>
-            </div>
+            </form>
         </section>
         <section id="charts">
             <svg width="500" height="500" id="barChart"></svg>

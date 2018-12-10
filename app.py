@@ -13,6 +13,7 @@ app.config[
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
+filters = {}
 
 # General Redirect
 @app.route('/')
@@ -23,7 +24,7 @@ def redir():
 # Index
 @app.route('/index')
 def index():
-    yearOptions = db.session.query(Case.year).group_by(Case.year).distinct().all()
+    yearOptions = db.session.query(Case.year).distinct().all()
     yearOptions = sorted([y[0] for y in yearOptions])
 
     typeOptions = db.session.query(Case.primary_type).distinct().all()
@@ -97,13 +98,25 @@ def forecast():
     if request.method == 'GET':
         return render_template('forecast.html', title="Forecast")
 
+@app.route('/search', methods=['POST'])
+def search():
+    if request.method == 'POST':
+        filters['typeFilter'] = request.form['typeFilter']
+        filters['yearFilter'] = request.form['yearFilter']
+        filters['districtFilter'] = request.form['districtFilter'] 
+    print("filters", filters)
+    return redirect(url_for('index'))
+
 
 ############# API ENDPOINTS #############
 
 # Get Crimes By Year
 @app.route('/api/breakdown/year')
 def crimes_by_year():
-    breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
+    if 'yearFilter' in filters:
+        breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).filter_by(year=filters['yearFilter']).all()
+    else:
+        breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
     ret = []
     for b in breakdown:
         ret.append({
@@ -116,7 +129,10 @@ def crimes_by_year():
 # Get Crimes by Type
 @app.route('/api/breakdown/type')
 def crimes_by_type():
-    breakdown = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).all()
+    if 'yearFilter' in filters:
+        breakdown = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(year=filters['yearFilter']).all()
+    else:
+        breakdown = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).all()
     ret = []
     for b in breakdown:
         ret.append({
@@ -129,7 +145,10 @@ def crimes_by_type():
 # Get Crimes by District
 @app.route('/api/breakdown/district')
 def crimes_by_district():
-    breakdown = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).all()
+    if 'yearFilter' in filters:
+        breakdown = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(year=filters['yearFilter']).all()
+    else:
+        breakdown = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).all()
     ret = []
     for b in breakdown:
         ret.append({
