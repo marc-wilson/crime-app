@@ -95,25 +95,25 @@ completion.
 |   [X]    | Import Crimes Data            | Import crime cases into cases table                                             | 5        |
 |   [X]    | Create Data Import Script     | Create Python script to import data from csv into postgresql                    | 1        |
 |   [X]    | Create users table            | Create the users table to store users                                           | 1        |
-|   [ ]    | Create saved reports table    | Create the table which will store saved reports                                 | 1        |
-|   [ ]    | Create models for tables      | Create models for User, Case, Report                                            | 2        |
+|   [X]    | Create saved reports table    | Create the table which will store saved reports                                 | 1        |
+|   [X]    | Create models for tables      | Create models for User, Case, Report                                            | 2        |
 |   [X]    | Connect Database to Flask     | Create the connectivity between the flask app and the heroku db                 | 1        |
-|   [ ]    | Create db queries             | Create the necessary database queries for the app                               | 3        |
+|   [X]    | Create db queries             | Create the necessary database queries for the app                               | 3        |
 |   [X]    | Create project                | Create the project structure and repository for the app.(GitHub/Heroku)         | 2        |
 |   [X]    | Sign up route                 | Create sign up route                                                            | 1        |
 |   [X]    | Sign up page                  | Create the html template, style and design for login page                       | 2        |
 |   [X]    | Logout route                  | Create the logout route                                                         | 1        |
 |   [X]    | Login route                   | Create the login route                                                          | 1        |
 |   [X]    | Login Page                    | Create login form/page                                                          | 2        |
-|   [ ]    | Main route                    | Create the main route (/home)                                                   | 2        |
-|   [ ]    | Crime Type JSON endpoint      | Create endpoint to return crime types in json format (for visualization)        | 3        |
-|   [ ]    | Crime by Area JSON endpoint   | Create endpoint to return crimes by area in json format (for visualization)     | 4        |
-|   [ ]    | Crime frequency JSON endpoint | Create endpoint to return frequency of crime in json format (for visualization) | 4        |
-|   [ ]    | Crime Type D3 Viz             | Create d3 visualization of crime types                                          | 5        |
-|   [ ]    | Crime by Area D3 Viz          | Create d3 visualization of crime by area                                        | 10       |
+|   [X]    | Main route                    | Create the main route (/home)                                                   | 2        |
+|   [X]    | Crime Type JSON endpoint      | Create endpoint to return crime types in json format (for visualization)        | 3        |
+|   [X]    | Crime by Area JSON endpoint   | Create endpoint to return crimes by area in json format (for visualization)     | 4        |
+|   [X]    | Crime frequency JSON endpoint | Create endpoint to return frequency of crime in json format (for visualization) | 4        |
+|   [X]    | Crime Type D3 Viz             | Create d3 visualization of crime types                                          | 5        |
+|   [X]    | Crime by Area D3 Viz          | Create d3 visualization of crime by area                                        | 10       |
 |   [ ]    | Crime Frequency D3 Viz        | Create d3 visualization of frequency of crime                                   | 10       |
-|   [ ]    | Create filters for dashboard  | Create filters for the visualizations in the main route                         | 10       |
-|   [ ]    | Create Forecasting route      | Create the route for forecasting                                                | 1        |
+|   [X]    | Create filters for dashboard  | Create filters for the visualizations in the main route                         | 10       |
+|   [X]    | Create Forecasting route      | Create the route for forecasting                                                | 1        |
 |   [ ]    | Create Forecasting page       | Create the html, css, and js for forecasting page                               | 5        |
 |   [ ]    | Create Profile route          | Create the route for the profile page                                           | 3        |
 |   [ ]    | Create Profile page           | Create the html, css and js for the profile page                                | 5        |
@@ -128,3 +128,17 @@ data as the python notebooks for the exploration, cleansing and formatting were 
 
 In addition, we were able to create basic forecasting models for predicting the amount of crimes that will happen in the future. We were
 also able to get a much better understanding on our target visualizations and how we will model them.
+
+
+### Project Milestone 2 (12/10/2018)
+The second milestone was very productive. We were able to get our design defined, our endpoints and routes created and
+get the front end up and running. This milestone a lot of progress was made around getting the visualizations implemented
+and developing what we need for the saved reports and filtering. In addition, we implemented signup and login/logout
+features to get us ready to start saving user-specific data.
+
+Currently, the application is visualizing the 3 core features we were after. You are able to filter on the data but
+not able to save the report quite yet. We want to make sure we are good on the way we are applying filters before writing
+it to the database.
+
+Next week, we will finish up our application by cleaning up the current main page, finish implementing the saved reports
+functionality and wrap things up with the forecast page.

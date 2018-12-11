@@ -13,6 +13,7 @@ app.config[
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
+filters = {}
 
 # General Redirect
 @app.route('/')
@@ -23,11 +24,20 @@ def redir():
 # Index
 @app.route('/index')
 def index():
+    yearOptions = db.session.query(Case.year).distinct().all()
+    yearOptions = sorted([y[0] for y in yearOptions])
+
+    typeOptions = db.session.query(Case.primary_type).distinct().all()
+    typeOptions = sorted(t[0] for t in typeOptions)
+
+    districtOptions = db.session.query(Case.district).distinct().all()
+    districtOptions = sorted(d[0] for d in districtOptions)
+
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
-        return render_template('index.html', title='Home', session_username=user.username)
+        return render_template('index.html', title='Home', session_username=user.username, yearOptions=yearOptions, typeOptions=typeOptions, districtOptions=districtOptions)
     else:
-        return render_template('index.html', title='Home')
+        return render_template('index.html', title='Home', yearOptions=yearOptions, typeOptions=typeOptions, districtOptions=districtOptions)
 
 
 # Signup
@@ -88,13 +98,25 @@ def forecast():
     if request.method == 'GET':
         return render_template('forecast.html', title="Forecast")
 
+@app.route('/search', methods=['POST'])
+def search():
+    if request.method == 'POST':
+        filters['typeFilter'] = request.form['typeFilter']
+        filters['yearFilter'] = request.form['yearFilter']
+        filters['districtFilter'] = request.form['districtFilter'] 
+    print("filters", filters)
+    return redirect(url_for('index'))
+
 
 ############# API ENDPOINTS #############
 
 # Get Crimes By Year
 @app.route('/api/breakdown/year')
 def crimes_by_year():
-    breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
+    if 'yearFilter' in filters:
+        breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).filter_by(year=filters['yearFilter']).all()
+    else:
+        breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
     ret = []
     for b in breakdown:
         ret.append({
@@ -107,7 +129,20 @@ def crimes_by_year():
 # Get Crimes by Type
 @app.route('/api/breakdown/type')
 def crimes_by_type():
-    breakdown = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).all()
+    year = request.args.get('year')
+    district = request.args.get('district')
+    query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type)
+    if year and district is None:
+        query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(year=int(year))
+    if district and year is None:
+        db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(district=int(district))
+    if district and year:
+        query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(
+            district=int(district), year=int(year))
+    if district is None and year is None:
+        query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type)
+
+    breakdown = query.all()
     ret = []
     for b in breakdown:
         ret.append({
@@ -120,7 +155,19 @@ def crimes_by_type():
 # Get Crimes by District
 @app.route('/api/breakdown/district')
 def crimes_by_district():
-    breakdown = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).all()
+    year = request.args.get('year')
+    type = request.args.get('type')
+    query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district)
+    if year and type is None:
+        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(year=int(year))
+    if type and year is None:
+        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(primary_type=type)
+    if type and year:
+        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(
+            primary_type=type, year=int(year))
+    if type is None and year is None:
+        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district)
+    breakdown = query.all()
     ret = []
     for b in breakdown:
         ret.append({
