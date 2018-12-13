@@ -35,3 +35,30 @@ class Case(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     location = db.Column(db.Text, nullable=False)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'case_id': self.case_id,
+            'case_number': self.case_number,
+            'date': self.date,
+            'block': self.block,
+            'iucr': self.iucr,
+            'primary_type': self.primary_type,
+            'description': self.description,
+            'location_description': self.location_description,
+            'arrest': self.arrest,
+            'domestic': self.domestic,
+            'beat': self.beat,
+            'district': self.district,
+            'ward': self.ward,
+            'community_area': self.community_area,
+            'fbi_code': self.fbi_code,
+            'x_coordinate': self.x_coordinate,
+            'y_coordinate': self.y_coordinate,
+            'year': self.year,
+            'updated_on': self.updated_on,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'location': self.location
+        }

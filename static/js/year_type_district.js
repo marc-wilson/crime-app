@@ -1,65 +1,3 @@
-// crimes by year
-d3.json("/api/breakdown/year").then(data => {
-
-    svg = d3.select("#barChart")
-    margin = {top: 45, right: 45, bottom: 45, left: 45},
-        width = +svg.attr("width") - margin.left - margin.right,
-        height = +svg.attr("height") - margin.top - margin.bottom,
-        g = svg.append("g");
-
-    var years = [];
-    for (k = 0; k < data.length; k++) {
-        years[k] = data[k].year;
-    }
-
-    var xScale = d3.scaleBand()
-        .domain(years)
-        .range([margin.left, width])
-        .padding(0.2);
-
-    var yScale = d3.scaleLinear()
-        .domain(d3.extent(data, function (d) {
-            return d.count;
-        }))
-        .range([height, margin.top]);
-
-    var index = 0;
-
-    svg.selectAll("rect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", function (d) {
-            return xScale(years[index++]);
-        })
-        .attr("y", function (d) {
-            return yScale(d.count);
-        })
-        .attr("width", xScale.bandwidth())
-        .attr("height", function (d) {
-            return height - yScale(d.count) + margin.top;
-        })
-        .style("fill", "steelblue");
-
-    var yAxis = d3.axisLeft(yScale)
-        .scale(yScale)
-        .ticks(7);
-
-    g.append("g")
-        .attr("transform", "translate(" + (width + margin.right) + ",0)")
-        .call(yAxis);
-
-    svg.append("text")
-        .attr("transform", "translate(" + (width / 2) + "," + (height + margin.top + 40) + ")")
-        .style("text-anchor", "middle")
-        .text("Crimes by Year")
-
-    for (i = 0; i < data.length; i++) {
-        svg.append("text")
-            .attr("transform", "translate(" + (xScale(years[i]) + 5) + "," + (height + margin.top + 15) + ")")
-            .text(years[i]);
-    }
-});
 
 class Index {
     constructor(year = null, type = null, district = null) {
@@ -67,6 +5,7 @@ class Index {
         this.yearEl = document.getElementById('yearFilter');
         this.districtEl = document.getElementById('districtFilter');
         this.searchEl = document.getElementById('btnSearch');
+        this.chartHeight = 300;
         this.year = year ? year : null;
         this.type = type ? type : null;
         this.district = district ? district : null;
@@ -99,81 +38,158 @@ class Index {
 
     async init() {
         this.searchEl.addEventListener('click', this.search.bind(this));
-        await this.generateTypeBreakdown();
-        await this.generateDistrictBreakdown();
+        await Promise.all([
+            this.generateTypeBreakdown(),
+            this.generateDistrictBreakdown(),
+            this.generateYearBreakdown(),
+            this.getDataset()
+            ]).then( () => {});
     }
+
     async generateDistrictBreakdown() {
         const queryString = this.getQueryString();
         const url = queryString ? `/api/breakdown/district${queryString}` : '/api/breakdown/district';
         const data = await d3.json(url);
-        var svg = d3.select("#scatterChart");
         const margin = {top: 20, right: 10, bottom: 50, left: 60};
+        var svg = d3.select("#scatterChart");
+        svg.attr('width', ( (window.innerWidth / 3) * 2) - margin.left - margin.right);
+        svg.attr('height', this.chartHeight);
         const width = +svg.attr("width") - margin.left - margin.right;
         const height = +svg.attr("height") - margin.top - margin.bottom;
         const g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var xScale = d3.scaleLinear()
-        .domain(d3.extent(data, function (d) {
-            return d.district;
-        }))
-        .range([0, width]);
+        var xScale = d3.scaleLinear()
+            .domain(d3.extent(data, function (d) {
+                return d.district;
+            }))
+            .range([0, width]);
 
-    var yScale = d3.scaleLinear()
-        .domain(d3.extent(data, function (d) {
-            return d.count;
-        }))
-        .range([height, 0]);
+        var yScale = d3.scaleLinear()
+            .domain(d3.extent(data, function (d) {
+                return d.count;
+            }))
+            .range([height, 0]);
 
-    var xAxis = d3.axisBottom()
-        .scale(xScale)
-        .ticks(5);
+        var xAxis = d3.axisBottom()
+            .scale(xScale)
+            .ticks(5);
 
-    var yAxis = d3.axisLeft()
-        .scale(yScale)
-        .ticks(5);
+        var yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5);
 
-    g.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
 
-    g.append("g")
-        .call(yAxis);
+        g.append("g")
+            .call(yAxis);
 
-    var bubble = g.selectAll("circle")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("class", "bubble")
-        .attr("cx", function (d) {
-            return xScale(d.district);
-        })
-        .attr("cy", function (d) {
-            return yScale(d.count);
-        })
-        .attr("r", 10)
-        .style("fill", "steelblue")
-    bubble.attr("transform", "translate(30,15)scale(0.85)");
+        var bubble = g.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "bubble")
+            .attr("cx", function (d) {
+                return xScale(d.district);
+            })
+            .attr("cy", function (d) {
+                return yScale(d.count);
+            })
+            .attr("r", 10)
+            .style("fill", "steelblue")
+        bubble.attr("transform", "translate(30,15)scale(0.85)");
 
-    g.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -110)
-        .attr("y", 30)
-        .attr("class", "label")
-        .text("Number of Crimes");
+        g.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -110)
+            .attr("y", 30)
+            .attr("class", "label")
+            .text("Number of Crimes");
 
-    g.append("text")
-        .attr("x", (width / 2) + 60)
-        .attr("y", height + 35)
-        .attr("text-anchor", "end")
-        .attr("class", "label")
-        .text("District");
+        g.append("text")
+            .attr("x", (width / 2) + 60)
+            .attr("y", height + 35)
+            .attr("text-anchor", "end")
+            .attr("class", "label")
+            .text("District");
     }
+
+    async generateYearBreakdown() {
+        const queryString = this.getQueryString();
+        const url = queryString ? `/api/breakdown/year${queryString}` : '/api/breakdown/year';
+        const data = await d3.json(url);
+        const svg = d3.select("#barChart")
+        const margin = {top: 45, right: 45, bottom: 45, left: 45};
+        svg.attr('width', window.innerWidth - margin.left - margin.right);
+        svg.attr('height', this.chartHeight);
+        const width = +svg.attr("width") - margin.left - margin.right;
+        const height = +svg.attr("height") - margin.top - margin.bottom;
+        const g = svg.append("g");
+
+        var years = [];
+        for (let k = 0; k < data.length; k++) {
+            years[k] = data[k].year;
+        }
+
+        var xScale = d3.scaleBand()
+            .domain(years)
+            .range([margin.left, width])
+            .padding(0.2);
+
+        var yScale = d3.scaleLinear()
+            .domain(d3.extent(data, function (d) {
+                return d.count;
+            }))
+            .range([height, margin.top]);
+
+        var index = 0;
+
+        svg.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("x", function (d) {
+                return xScale(years[index++]);
+            })
+            .attr("y", function (d) {
+                return yScale(d.count);
+            })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function (d) {
+                return height - yScale(d.count) + margin.top;
+            })
+            .style("fill", "steelblue");
+
+        var yAxis = d3.axisLeft(yScale)
+            .scale(yScale)
+            .ticks(7);
+
+        g.append("g")
+            .attr("transform", "translate(" + (width + margin.right) + ",0)")
+            .call(yAxis);
+
+        svg.append("text")
+            .attr("transform", "translate(" + (width / 2) + "," + (height + margin.top + 40) + ")")
+            .style("text-anchor", "middle")
+            .text("Crimes by Year");
+
+        for (let i = 0; i < data.length; i++) {
+            svg.append("text")
+                .attr("transform", "translate(" + (xScale(years[i]) + 5) + "," + (height + margin.top + 15) + ")")
+                .text(years[i]);
+        }
+
+    }
+
     async generateTypeBreakdown() {
         const queryString = this.getQueryString();
         const url = queryString ? `/api/breakdown/type${queryString}` : '/api/breakdown/type';
         const data = await d3.json(url);
         var svg = d3.select("#donutChart").attr('class', 'pie');
         const margin = {top: 0, right: 30, bottom: 30, left: 30};
+        svg.attr('width', (window.innerWidth / 3) - margin.left - margin.right);
+        svg.attr('height', this.chartHeight);
         const width = +svg.attr("width") - margin.left - margin.right;
         const height = +svg.attr("height") - margin.top - margin.bottom;
         const g = svg.append("g")
@@ -187,7 +203,7 @@ class Index {
             type_keys[i] = data[i].type;
         }
 
-        var radius = Math.min(width, height) / 2;
+        var radius = Math.min(width, height) / 2 - 25;
         var color = d3.scaleOrdinal()
             .domain(type_keys)
             .range(["#fff7fb", "#ece7f2", "#d0d1e6", "#a6bddb", "#74a9cf", "#3690c0", "#0570b0", "#045a8d", "#023858"]);
@@ -255,10 +271,48 @@ class Index {
             });
     }
 
+    async getDataset() {
+        const queryString = this.getQueryString();
+        const url = queryString ? `/api/data${queryString}` : '/api/data';
+        const data = await d3.json(url);
+        const tableContainer = document.getElementById('tableContainer');
+        const datatable = new DataTable(data, this.generateColumnMapping());
+        if (datatable) {
+            tableContainer.appendChild(datatable.toHtmlTable());
+        }
+        console.log(datatable);
+    }
+    generateColumnMapping() {
+        return [
+            new ColumnMapping({ fieldName: 'arrest', label: 'Arrest', display: true }),
+            new ColumnMapping( { fieldName: 'beat', label: 'Beat', display: false }),
+            new ColumnMapping( { fieldName: 'block', label: 'Block', display: false }),
+            new ColumnMapping( { fieldName: 'case_id', label: 'Case ID', display: false }),
+            new ColumnMapping( { fieldName: 'case_number', label: 'Case Number', display: false }),
+            new ColumnMapping( { fieldName: 'community_area', label: 'Community Area', display: false }),
+            new ColumnMapping( { fieldName: 'date', label: 'Date', display: true }),
+            new ColumnMapping( { fieldName: 'description', label: 'Desc', display: true }),
+            new ColumnMapping( { fieldName: 'district', label: 'Dist', display: true }),
+            new ColumnMapping( { fieldName: 'domestic', label: 'Domestic', display: true }),
+            new ColumnMapping( { fieldName: 'fbi_code', label: 'FBI Code', display: false }),
+            new ColumnMapping( { fieldName: 'id', label: 'ID', display: false }),
+            new ColumnMapping( { fieldName: 'iucr', label: 'IUCR', display: false }),
+            new ColumnMapping( { fieldName: 'latitude', label: 'Lat', display: false }),
+            new ColumnMapping( { fieldName: 'location', label: 'Location', display: false }),
+            new ColumnMapping( { fieldName: 'location_description', label: 'Location Description', display: true }),
+            new ColumnMapping( { fieldName: 'longitude', label: 'Lon', display: false }),
+            new ColumnMapping( { fieldName: 'primary_type', label: 'Type', display: true }),
+            new ColumnMapping( { fieldName: 'updated_on', label: 'Updated', display: false }),
+            new ColumnMapping( { fieldName: 'ward', label: 'Ward', display: false }),
+            new ColumnMapping( { fieldName: 'x_coordinate', label: 'X', display: false }),
+            new ColumnMapping( { fieldName: 'y_coordinate', label: 'Y', display: false }),
+            new ColumnMapping( { fieldName: 'year', label: 'Year', display: true }),
+        ]
+    }
     search(evt) {
         const queryString = this.getQueryString(true);
         console.log(queryString);
-        window.location.href = queryString;
+        queryString ? window.location.href = queryString : window.location.reload();
     }
 
     getQueryString(appendOrigin) {
