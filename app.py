@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, url_for, request, session, j
 from models import db, User, Case
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
-import json
 from sqlalchemy import func
 
 app = Flask(__name__)
@@ -13,7 +12,6 @@ app.config[
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
-filters = {}
 
 # General Redirect
 @app.route('/')
@@ -24,6 +22,7 @@ def redir():
 # Index
 @app.route('/index')
 def index():
+    # TODO: Cache this stuff. No need to make the call on every page load
     yearOptions = db.session.query(Case.year).distinct().all()
     yearOptions = sorted([y[0] for y in yearOptions])
 
@@ -98,25 +97,22 @@ def forecast():
     if request.method == 'GET':
         return render_template('forecast.html', title="Forecast")
 
-@app.route('/search', methods=['POST'])
-def search():
-    if request.method == 'POST':
-        filters['typeFilter'] = request.form['typeFilter']
-        filters['yearFilter'] = request.form['yearFilter']
-        filters['districtFilter'] = request.form['districtFilter'] 
-    print("filters", filters)
-    return redirect(url_for('index'))
-
 
 ############# API ENDPOINTS #############
 
 # Get Crimes By Year
 @app.route('/api/breakdown/year')
 def crimes_by_year():
-    if 'yearFilter' in filters:
-        breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).filter_by(year=filters['yearFilter']).all()
-    else:
-        breakdown = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year).all()
+    primary_type = request.args.get('type')
+    district = request.args.get('district')
+    query = db.session.query(Case.year, func.count(Case.id)).group_by(Case.year)
+    filters = []
+    if primary_type:
+        filters.append(Case.primary_type == primary_type)
+    if district:
+        filters.append(Case.district == int(district))
+    query = query.filter(*filters)
+    breakdown = query.all()
     ret = []
     for b in breakdown:
         ret.append({
@@ -131,17 +127,13 @@ def crimes_by_year():
 def crimes_by_type():
     year = request.args.get('year')
     district = request.args.get('district')
+    filters = []
     query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type)
-    if year and district is None:
-        query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(year=int(year))
-    if district and year is None:
-        db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(district=int(district))
-    if district and year:
-        query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type).filter_by(
-            district=int(district), year=int(year))
-    if district is None and year is None:
-        query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type)
-
+    if year:
+        filters.append(Case.year == int(year))
+    if district:
+        filters.append(Case.district == int(district))
+    query = query.filter(*filters)
     breakdown = query.all()
     ret = []
     for b in breakdown:
@@ -156,17 +148,14 @@ def crimes_by_type():
 @app.route('/api/breakdown/district')
 def crimes_by_district():
     year = request.args.get('year')
-    type = request.args.get('type')
+    primary_type = request.args.get('type')
     query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district)
-    if year and type is None:
-        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(year=int(year))
-    if type and year is None:
-        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(primary_type=type)
-    if type and year:
-        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district).filter_by(
-            primary_type=type, year=int(year))
-    if type is None and year is None:
-        query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district)
+    filters = []
+    if year:
+        filters.append(Case.year == int(year))
+    if primary_type:
+        filters.append(Case.primary_type == primary_type)
+    query = query.filter(*filters)
     breakdown = query.all()
     ret = []
     for b in breakdown:
@@ -174,6 +163,28 @@ def crimes_by_district():
             'district': int(b[0]),
             'count': int(b[1])
         })
+    return jsonify(ret)
+
+
+# Get Dataset
+@app.route('/api/data')
+def get_dataset():
+    year = request.args.get('year')
+    primary_type = request.args.get('type')
+    district = request.args.get('district')
+    filters = []
+    query = db.session.query(Case).order_by(Case.date)
+    if year:
+        filters.append(Case.year == int(year))
+    if primary_type:
+        filters.append(Case.primary_type == primary_type)
+    if district:
+        filters.append(Case.district == int(district))
+    query = query.filter(*filters).limit(100)
+    dataset = query.all()
+    ret = []
+    for c in dataset:
+        ret.append(c.to_json())
     return jsonify(ret)
 
 
