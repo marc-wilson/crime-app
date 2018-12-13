@@ -83,12 +83,22 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+# Save current filters
+@app.route('/save', methods=['POST'])
+def save():
+    if request.method == 'POST':
+        typeFilter = request.form['typeFilter']
+        yearFilter = request.form['yearFilter']
+        districtFilter = request.form['districtFilter'] 
+        # save to db instead
+    return redirect(url_for('saved_reports'))
 
 # Saved Reports
 @app.route('/saved-reports', methods=['GET', 'POST'])
 def saved_reports():
     if request.method == 'GET':
-        return render_template('saved-reports.html', title="Saved Reports")
+        saved_reports = [{ "primary_type": "ARSON", "year": "2010", "district": "2"}, { "primary_type": "ASSAULT", "year": "2001", "district": "1"}] # dummy filters for test
+        return render_template('saved-reports.html', title="Saved Reports", saved_reports=saved_reports)
 
 
 # Forecast

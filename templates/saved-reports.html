@@ -3,8 +3,28 @@
     <link rel="stylesheet" href="../static/styles/saved-reports.css"/>
     <section id="savedReports">
         <main>
-            Saved Reports
+            <h1>Saved Reports</h1>
         </main>
+        <div class="report" id="placeholder">
+        	<div class="selected typeFilter"></div>
+        	<div class="selected yearFilter"></div>
+        	<div class="selected districtFilter"></div>
+        </div>
+        {% for report in saved_reports %}
+        	<div class="report">
+        		<div class="typeFilter"> {{ report.primary_type }} </div>
+        		<div class="yearFilter"> {{ report.year }} </div>
+        		<div class="districtFilter"> {{ report.district }} </div>
+        	</div>
+        {% endfor %}
+        <div id="submitContainer">
+            <button id="btnSelect" class="btn btn-primary">View</button>
+        </div>
     </section>
+    <section id="tabular">
+        <div id="tableContainer"></div>
+    </section>
+    <script src="../static/js/utils/data-table.js"></script>
+    <script src="../static/js/saved-reports.js"></script>
 
 {% endblock %}

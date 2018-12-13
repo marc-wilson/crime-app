@@ -1,3 +1,14 @@
+.selected {
+	background-color: yellow;
+}
 
+#placeholder {
+	visibility: none;
+}
+
+.report {
+	display: inline-block;
+	text-align: center;
+}
 
 /*# sourceMappingURL=saved-reports.css.map */
