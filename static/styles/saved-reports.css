@@ -1,14 +1,5 @@
-.selected {
-	background-color: yellow;
-}
-
-#placeholder {
-	visibility: none;
-}
-
-.report {
-	display: inline-block;
-	text-align: center;
-}
+#savedReports {
+  padding: 0 30px;
+  margin: auto; }
 
 /*# sourceMappingURL=saved-reports.css.map */

@@ -62,3 +62,21 @@ class Case(db.Model):
             'longitude': self.longitude,
             'location': self.location
         }
+
+
+class Report(db.Model):
+    __tablename__ = 'reports'
+    rid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
+    type = db.Column(db.String, nullable=True)
+    year = db.Column(db.Integer, nullable=True)
+    district = db.Column(db.Integer, nullable=True)
+
+    def to_json(self):
+        return {
+            'rid': self.rid,
+            'uid': self.uid,
+            'type': self.type,
+            'year': self.year,
+            'district': self.district
+        }

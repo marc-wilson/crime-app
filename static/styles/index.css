@@ -22,5 +22,12 @@
       grid-column: 1 / 4; }
   #indexPage table {
     overflow: hidden; }
+  #indexPage #filterActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 30px; }
+    #indexPage #filterActions button:last-child {
+      margin-right: 30px; }
 
 /*# sourceMappingURL=index.css.map */

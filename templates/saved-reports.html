@@ -2,29 +2,34 @@
 {% block content %}
     <link rel="stylesheet" href="../static/styles/saved-reports.css"/>
     <section id="savedReports">
-        <main>
+        <header>
             <h1>Saved Reports</h1>
+        </header>
+        <main>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>District</th>
+                        <th>Type</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in saved_reports %}
+                        <tr>
+                            <td>{{ report.year }}</td>
+                            <td>{{ report.district }}</td>
+                            <td>{{ report.type }}</td>
+                            <td></td>
+                            <td><form method="POST" action="/delete/{{ report.rid }}"><button class="btn btn-danger" type="submit">Delete</button></form></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </main>
-        <div class="report" id="placeholder">
-        	<div class="selected typeFilter"></div>
-        	<div class="selected yearFilter"></div>
-        	<div class="selected districtFilter"></div>
-        </div>
-        {% for report in saved_reports %}
-        	<div class="report">
-        		<div class="typeFilter"> {{ report.primary_type }} </div>
-        		<div class="yearFilter"> {{ report.year }} </div>
-        		<div class="districtFilter"> {{ report.district }} </div>
-        	</div>
-        {% endfor %}
-        <div id="submitContainer">
-            <button id="btnSelect" class="btn btn-primary">View</button>
-        </div>
     </section>
-    <section id="tabular">
-        <div id="tableContainer"></div>
-    </section>
-    <script src="../static/js/utils/data-table.js"></script>
     <script src="../static/js/saved-reports.js"></script>
 
 {% endblock %}

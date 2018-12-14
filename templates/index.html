@@ -8,46 +8,47 @@
             {% endif %}
         </div>
         <section id="filtersContainer">
-            <form method="POST" action="/save">
-                <div id="inputs">
-                    <div class="input-container">
-                        <label for="typeFilter">Crime Type</label>
-                        <input list="typeFilterOptions" id="typeFilter" name="typeFilter" class="form-control"
-                               placeholder="All"/>
-                        <datalist id="typeFilterOptions">
-                            {% for t in typeOptions %}
-                                <option value="{{ t }}">
-                            {% endfor %}
-                        </datalist>
-                    </div>
-                    <div class="input-container">
-                        <label for="yearFilter">Year</label>
-                        <input list="yearFilterOptions" id="yearFilter" name="yearFilter" class="form-control"
-                               placeholder="All"/>
-                        <datalist id="yearFilterOptions">
-                            {% for y in yearOptions %}
-                                <option value="{{ y }}">
-                            {% endfor %}
-                        </datalist>
-                    </div>
-                    <div class="input-container">
-                        <label for="districtFilter">District</label>
-                        <input list="districtFilterOptions" id="districtFilter" name="districtFilter" class="form-control"
-                               placeholder="All"/>
-                        <datalist id="districtFilterOptions">
-                            {% for d in districtOptions %}
-                                <option value="{{ d }}">
-                            {% endfor %}
-                        </datalist>
-                    </div>
+            <div id="inputs">
+                <div class="input-container">
+                    <label for="typeFilter">Crime Type</label>
+                    <input list="typeFilterOptions" id="typeFilter" name="typeFilter" class="form-control"
+                           placeholder="All"/>
+                    <datalist id="typeFilterOptions">
+                        {% for t in typeOptions %}
+                            <option value="{{ t }}">
+                        {% endfor %}
+                    </datalist>
                 </div>
-                <div id="submitContainer">
-                    <button id="btnSearch" class="btn btn-primary">Search</button>
+                <div class="input-container">
+                    <label for="yearFilter">Year</label>
+                    <input list="yearFilterOptions" id="yearFilter" name="yearFilter" class="form-control"
+                           placeholder="All"/>
+                    <datalist id="yearFilterOptions">
+                        {% for y in yearOptions %}
+                            <option value="{{ y }}">
+                        {% endfor %}
+                    </datalist>
                 </div>
-                <div id="submitContainer">
-                    <button id="btnSave" type="submit" class="btn btn-primary">Save Current Data Set</button>
+                <div class="input-container">
+                    <label for="districtFilter">District</label>
+                    <input list="districtFilterOptions" id="districtFilter" name="districtFilter"
+                           class="form-control"
+                           placeholder="All"/>
+                    <datalist id="districtFilterOptions">
+                        {% for d in districtOptions %}
+                            <option value="{{ d }}">
+                        {% endfor %}
+                    </datalist>
                 </div>
-            </form>
+            </div>
+        </section>
+        <section id="filterActions">
+            <div>
+                <button id="btnSearch" class="btn btn-primary">Search</button>
+            </div>
+            <div>
+                <button id="btnSave" class="btn btn-success">Save Report</button>
+            </div>
         </section>
         <section id="charts">
             <div>
@@ -57,7 +58,6 @@
                 <svg id="donutChart"></svg>
             </div>
             <div>
-
                 <svg id="barChart"></svg>
             </div>
         </section>
@@ -65,6 +65,7 @@
             <div id="tableContainer"></div>
         </section>
         <script src="../static/js/utils/data-table.js"></script>
+    <script src="../static/js/utils/http-client.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js"></script>
         <script src="static/js/year_type_district.js"></script>
     </section>

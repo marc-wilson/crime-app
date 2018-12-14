@@ -78,15 +78,18 @@ class DataTable {
         return null;
     }
     toHtmlTable() {
-        const table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('table-bordered');
-        table.classList.add('table-hover');
-        const thead = this.generateThead();
-        const tbody = this.generateTbody();
-        table.appendChild(thead);
-        table.appendChild(tbody);
-        return table;
+        if (this.data && Array.isArray(this.data) && this.data.length > 0) {
+            const table = document.createElement('table');
+            table.classList.add('table');
+            table.classList.add('table-bordered');
+            table.classList.add('table-hover');
+            const thead = this.generateThead();
+            const tbody = this.generateTbody();
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            return table;
+        }
+        return null;
 
     }
 }

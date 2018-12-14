@@ -1,10 +1,12 @@
 
 class Index {
     constructor(year = null, type = null, district = null) {
+        this._httpClient = new HttpClient();
         this.typeEl = document.getElementById('typeFilter');
         this.yearEl = document.getElementById('yearFilter');
         this.districtEl = document.getElementById('districtFilter');
         this.searchEl = document.getElementById('btnSearch');
+        this.saveReportEl = document.getElementById('btnSave');
         this.chartHeight = 300;
         this.year = year ? year : null;
         this.type = type ? type : null;
@@ -38,6 +40,7 @@ class Index {
 
     async init() {
         this.searchEl.addEventListener('click', this.search.bind(this));
+        this.saveReportEl.addEventListener('click', this.saveReport.bind(this));
         await Promise.all([
             this.generateTypeBreakdown(),
             this.generateDistrictBreakdown(),
@@ -278,10 +281,23 @@ class Index {
         const tableContainer = document.getElementById('tableContainer');
         const datatable = new DataTable(data, this.generateColumnMapping());
         if (datatable) {
-            tableContainer.appendChild(datatable.toHtmlTable());
+            const table = datatable.toHtmlTable();
+            if (table) {
+                tableContainer.appendChild(table);
+            }
         }
-        console.log(datatable);
     }
+
+    async saveReport() {
+        const data = new FormData();
+        data.append('type', this._type);
+        data.append('district', this._district);
+        data.append('year', this._year);
+        console.log(data);
+        const result = await this._httpClient.post('/save', data);
+        console.log(result);
+    }
+
     generateColumnMapping() {
         return [
             new ColumnMapping({ fieldName: 'arrest', label: 'Arrest', display: true }),
@@ -309,9 +325,9 @@ class Index {
             new ColumnMapping( { fieldName: 'year', label: 'Year', display: true }),
         ]
     }
+
     search(evt) {
         const queryString = this.getQueryString(true);
-        console.log(queryString);
         queryString ? window.location.href = queryString : window.location.reload();
     }
 
