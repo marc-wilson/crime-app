@@ -2,9 +2,34 @@
 {% block content %}
     <link rel="stylesheet" href="../static/styles/saved-reports.css"/>
     <section id="savedReports">
+        <header>
+            <h1>Saved Reports</h1>
+        </header>
         <main>
-            Saved Reports
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>District</th>
+                        <th>Type</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in saved_reports %}
+                        <tr>
+                            <td>{{ report.year }}</td>
+                            <td>{{ report.district }}</td>
+                            <td>{{ report.type }}</td>
+                            <td><a href="/index?type={{ report.type }}&year={{ report.year }}&district={{ report.district }}" class="btn btn-primary">Open</a></td>
+                            <td><form method="POST" action="/delete/{{ report.rid }}"><button class="btn btn-danger" type="submit">Delete</button></form></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </main>
     </section>
+    <script src="../static/js/saved-reports.js"></script>
 
 {% endblock %}

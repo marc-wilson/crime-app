@@ -8,9 +8,10 @@ class ColumnMapping {
 
 class DataTable {
 
-    constructor(data, mapping) {
+    constructor(data, mapping, onRowClickCallback) {
         this.data = data;
         this.columnMapping = mapping ? mapping.map( m => new ColumnMapping(m) ) : null;
+        this.callback = onRowClickCallback ? onRowClickCallback : () => {};
         this.columns = this.getColumns();
         this.init();
     }
@@ -69,6 +70,8 @@ class DataTable {
                         }
 
                         tr.appendChild(td);
+                        tr.setAttribute('data-case', JSON.stringify(d));
+                        tr.onclick = this.callback;
                     });
                     tbody.appendChild(tr);
                 }
@@ -78,15 +81,17 @@ class DataTable {
         return null;
     }
     toHtmlTable() {
-        const table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('table-bordered');
-        table.classList.add('table-hover');
-        const thead = this.generateThead();
-        const tbody = this.generateTbody();
-        table.appendChild(thead);
-        table.appendChild(tbody);
-        return table;
-
+        if (this.data && Array.isArray(this.data) && this.data.length > 0) {
+            const table = document.createElement('table');
+            table.classList.add('table');
+            table.classList.add('table-bordered');
+            table.classList.add('table-hover');
+            const thead = this.generateThead();
+            const tbody = this.generateTbody();
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            return table;
+        }
+        return null;
     }
 }

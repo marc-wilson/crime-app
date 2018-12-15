@@ -30,4 +30,13 @@
   table {
     overflow: hidden;
   }
+  #filterActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 30px;
+    button:last-child {
+      margin-right: 30px;
+    }
+  }
 }

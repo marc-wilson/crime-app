@@ -1,5 +1,5 @@
-from flask import Flask, render_template, redirect, url_for, request, session, jsonify
-from models import db, User, Case
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify, send_from_directory
+from models import db, User, Case, Report
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
 from sqlalchemy import func
@@ -83,19 +83,60 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+# Save current filters
+@app.route('/save', methods=['POST'])
+def save():
+    if request.method == 'POST':
+        typeFilter = request.form['type']
+        yearFilter = request.form['year']
+        districtFilter = request.form['district']
+        user = User.query.filter_by(username=session['username']).first()
+
+        report = Report()
+        report.uid = user.uid
+        if typeFilter:
+            report.type = typeFilter
+        if yearFilter:
+            report.year = int(yearFilter)
+        if districtFilter:
+            report.district = int(districtFilter)
+
+        # report = Report(type=typeFilter, year=int(yearFilter), district=int(districtFilter), uid=user.uid)
+        db.session.add(report)
+        db.session.commit()
+    return jsonify( { 'result': True } )
+
+
+# Delete Report
+@app.route('/delete/<rid>', methods=['POST'])
+def delete_report(rid):
+    user = User.query.filter_by(username=session['username']).first()
+    Report.query.filter_by(uid=user.uid, rid=rid).delete()
+    db.session.commit()
+    return redirect(url_for('saved_reports'))
+
 
 # Saved Reports
 @app.route('/saved-reports', methods=['GET', 'POST'])
 def saved_reports():
     if request.method == 'GET':
-        return render_template('saved-reports.html', title="Saved Reports")
+        user = User.query.filter_by(username=session['username']).first()
+        saved_reports = Report.query.filter_by(uid=user.uid).all()
+        return render_template('saved-reports.html', title="Saved Reports", saved_reports=saved_reports)
 
 
 # Forecast
 @app.route('/forecast', methods=['GET'])
 def forecast():
     if request.method == 'GET':
-        return render_template('forecast.html', title="Forecast")
+        return render_template('forecast.html', title='Forecast')
+
+
+# Details
+@app.route('/detail')
+def detail():
+    return render_template('detail.html')
+
 
 
 ############# API ENDPOINTS #############
@@ -186,6 +227,20 @@ def get_dataset():
     for c in dataset:
         ret.append(c.to_json())
     return jsonify(ret)
+
+
+# Get Crime by Id
+@app.route('/api/cases/<id>')
+def get_case_by_id(id):
+    if id:
+        crime = Case.query.filter_by(id=int(id)).first()
+        return jsonify(crime.to_json())
+
+
+# Chicago Json
+@app.route('/api/chicago')
+def get_chicago():
+    return send_from_directory('static/data', 'chicago.json')
 
 
 if __name__ == '__main__':
