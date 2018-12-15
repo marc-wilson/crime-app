@@ -22,7 +22,7 @@
                             <td>{{ report.year }}</td>
                             <td>{{ report.district }}</td>
                             <td>{{ report.type }}</td>
-                            <td></td>
+                            <td><a href="/index?type={{ report.type }}&year={{ report.year }}&district={{ report.district }}" class="btn btn-primary">Open</a></td>
                             <td><form method="POST" action="/delete/{{ report.rid }}"><button class="btn btn-danger" type="submit">Delete</button></form></td>
                         </tr>
                     {% endfor %}

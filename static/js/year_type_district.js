@@ -279,7 +279,7 @@ class Index {
         const url = queryString ? `/api/data${queryString}` : '/api/data';
         const data = await d3.json(url);
         const tableContainer = document.getElementById('tableContainer');
-        const datatable = new DataTable(data, this.generateColumnMapping());
+        const datatable = new DataTable(data, this.generateColumnMapping(), this.onRowClick.bind(this));
         if (datatable) {
             const table = datatable.toHtmlTable();
             if (table) {
@@ -296,6 +296,14 @@ class Index {
         console.log(data);
         const result = await this._httpClient.post('/save', data);
         console.log(result);
+    }
+
+    onRowClick(data) {
+        try {
+            const json = data.target.closest('tr').getAttribute('data-case');
+            const crime = JSON.parse(json)
+            window.location.href = `/detail?id=${crime.id}`;
+        } catch (ex) {}
     }
 
     generateColumnMapping() {

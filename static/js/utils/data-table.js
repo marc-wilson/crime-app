@@ -8,9 +8,10 @@ class ColumnMapping {
 
 class DataTable {
 
-    constructor(data, mapping) {
+    constructor(data, mapping, onRowClickCallback) {
         this.data = data;
         this.columnMapping = mapping ? mapping.map( m => new ColumnMapping(m) ) : null;
+        this.callback = onRowClickCallback ? onRowClickCallback : () => {};
         this.columns = this.getColumns();
         this.init();
     }
@@ -69,6 +70,8 @@ class DataTable {
                         }
 
                         tr.appendChild(td);
+                        tr.setAttribute('data-case', JSON.stringify(d));
+                        tr.onclick = this.callback;
                     });
                     tbody.appendChild(tr);
                 }
@@ -90,6 +93,5 @@ class DataTable {
             return table;
         }
         return null;
-
     }
 }

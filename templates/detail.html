@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content %}
+    <link rel="stylesheet" href="../static/styles/details.css"/>
+    <section id="details">
+        <main>
+            <div id="map">
+            </div>
+            <div id="info">
+                <div>
+                    <label>Arrest</label>
+                    <div id="arrest"></div>
+                </div>
+                <div>
+                    <label>Beat</label>
+                    <div id="beat"></div>
+                </div>
+                <div>
+                    <label>Block</label>
+                    <div id="block"></div>
+                </div>
+                <div>
+                    <label>Case ID</label>
+                    <div id="caseId"></div>
+                </div>
+                <div>
+                    <label>Case Number</label>
+                    <div id="caseNumber"></div>
+                </div>
+                <div>
+                    <label>Community Area</label>
+                    <div id="communityArea"></div>
+                </div>
+                <div>
+                    <label>Date</label>
+                    <div id="date"></div>
+                </div>
+                <div>
+                    <label>Description</label>
+                    <div id="description"></div>
+                </div>
+                <div>
+                    <label>District</label>
+                    <div id="district"></div>
+                </div>
+                <div>
+                    <label>Domestic</label>
+                    <div id="domestic"></div>
+                </div>
+                <div>
+                    <label>FBI Code</label>
+                    <div id="fbiCode"></div>
+                </div>
+                <div>
+                    <label>IUCR</label>
+                    <div id="iucr"></div>
+                </div>
+                <div>
+                    <label>Location</label>
+                    <div id="location"></div>
+                </div>
+                <div>
+                    <label>Type</label>
+                    <div id="type"></div>
+                </div>
+            </div>
+        </main>
+    </section>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNJaY3HMi14pAfUciPvbxFQ5rCyAJcQo" type="text/javascript"></script>
+    <script src="../static/js/utils/http-client.js"></script>
+    <script src="../static/js/detail.js"></script>
+{% endblock %}

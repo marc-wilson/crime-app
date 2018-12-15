@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, jsonify
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify, send_from_directory
 from models import db, User, Case, Report
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
@@ -91,8 +91,17 @@ def save():
         yearFilter = request.form['year']
         districtFilter = request.form['district']
         user = User.query.filter_by(username=session['username']).first()
-        # save to db instead
-        report = Report(type=typeFilter, year=int(yearFilter), district=int(districtFilter), uid=user.uid)
+
+        report = Report()
+        report.uid = user.uid
+        if typeFilter:
+            report.type = typeFilter
+        if yearFilter:
+            report.year = int(yearFilter)
+        if districtFilter:
+            report.district = int(districtFilter)
+
+        # report = Report(type=typeFilter, year=int(yearFilter), district=int(districtFilter), uid=user.uid)
         db.session.add(report)
         db.session.commit()
     return jsonify( { 'result': True } )
@@ -121,6 +130,13 @@ def saved_reports():
 def forecast():
     if request.method == 'GET':
         return render_template('forecast.html', title='Forecast')
+
+
+# Details
+@app.route('/detail')
+def detail():
+    return render_template('detail.html')
+
 
 
 ############# API ENDPOINTS #############
@@ -211,6 +227,20 @@ def get_dataset():
     for c in dataset:
         ret.append(c.to_json())
     return jsonify(ret)
+
+
+# Get Crime by Id
+@app.route('/api/cases/<id>')
+def get_case_by_id(id):
+    if id:
+        crime = Case.query.filter_by(id=int(id)).first()
+        return jsonify(crime.to_json())
+
+
+# Chicago Json
+@app.route('/api/chicago')
+def get_chicago():
+    return send_from_directory('static/data', 'chicago.json')
 
 
 if __name__ == '__main__':
