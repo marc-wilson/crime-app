@@ -80,3 +80,57 @@ class Report(db.Model):
             'year': self.year,
             'district': self.district
         }
+
+
+class Predictive(db.Model):
+    __tablename__ = 'predictive'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ds = db.Column(db.String, nullable=False)
+    trend = db.Column(db.Numeric, nullable=False)
+    yhat_lower = db.Column(db.Numeric, nullable=False)
+    yhat_upper = db.Column(db.Numeric, nullable=False)
+    trend_lower = db.Column(db.Numeric, nullable=False)
+    trend_upper = db.Column(db.Numeric, nullable=False)
+    additive_terms = db.Column(db.Numeric, nullable=False)
+    additive_terms_lower = db.Column(db.Numeric, nullable=False)
+    additive_terms_upper = db.Column(db.Numeric, nullable=False)
+    daily = db.Column(db.Numeric, nullable=False)
+    daily_lower = db.Column(db.Numeric, nullable=False)
+    daily_upper = db.Column(db.Numeric, nullable=False)
+    weekly = db.Column(db.Numeric, nullable=False)
+    weekly_lower = db.Column(db.Numeric, nullable=False)
+    weekly_upper = db.Column(db.Numeric, nullable=False)
+    yearly = db.Column(db.Numeric, nullable=False)
+    yearly_lower = db.Column(db.Numeric, nullable=False)
+    yearly_upper = db.Column(db.Numeric, nullable=False)
+    multiplicative_terms = db.Column(db.Numeric, nullable=False)
+    multiplicative_terms_lower = db.Column(db.Numeric, nullable=False)
+    multiplicative_terms_upper = db.Column(db.Numeric, nullable=False)
+    yhat = db.Column(db.Numeric, nullable=False)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'ds': self.ds,
+            'trend': self.trend,
+            'yhat_lower': self.yhat_lower,
+            'yhat_upper': self.yhat_upper,
+            'trend_lower': self.trend_lower,
+            'trend_upper': self.trend_upper,
+            'additive_terms': self.additive_terms,
+            'additive_terms_lower': self.additive_terms_lower,
+            'additive_terms_upper': self.additive_terms_upper,
+            'daily': self.daily,
+            'daily_lower': self.daily_lower,
+            'daily_upper': self.daily_upper,
+            'weekly': self.weekly,
+            'weekly_lower': self.weekly_lower,
+            'weekly_upper': self.weekly_upper,
+            'yearly': self.yearly,
+            'yearly_lower': self.yearly_lower,
+            'yearly_upper': self.yearly_upper,
+            'multiplicative_terms': self.multiplicative_terms,
+            'multiplicative_terms_lower': self.multiplicative_terms_lower,
+            'multiplicative_terms_upper': self.multiplicative_terms_upper,
+            'yhat': self.yhat
+        }
