@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, jsonify, send_from_directory
+from flask import Flask, flash, render_template, redirect, url_for, request, session, jsonify, send_from_directory
 from models import db, User, Case, Report
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
@@ -66,12 +66,14 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user is None:
+            flash('Email is required')
             return redirect(url_for('login'))
         elif sha256_crypt.verify(password, user.password):
             session['username'] = user.username
             return redirect(url_for('index'))
         else:
             # TODO: Invalid Credentials
+            flash('Invalid login')
             return redirect(url_for('login'))
     else:
         return render_template('login.html', title="Log In", form=LoginForm())
