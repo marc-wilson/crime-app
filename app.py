@@ -247,7 +247,9 @@ def get_chicago():
 # Predictive Json
 @app.route('/api/predictive')
 def get_predictive():
-    dataset = Predictive.query.limit(100).all()
+    #dataset = Predictive.query.limit(100).all()
+    dataset = Predictive.query.order_by(Predictive.id.desc()).limit(312).all()
+    dataset = dataset[::-1]
     ret = []
     for c in dataset:
         ret.append(c.to_json())
