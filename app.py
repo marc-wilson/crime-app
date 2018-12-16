@@ -1,7 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify, send_from_directory
-from models import db, User, Case, Report
+from models import db, User, Case, Report, Predictive
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
+import simplejson as json
 from sqlalchemy import func
 
 app = Flask(__name__)
@@ -241,6 +242,18 @@ def get_case_by_id(id):
 @app.route('/api/chicago')
 def get_chicago():
     return send_from_directory('static/data', 'chicago.json')
+
+
+# Predictive Json
+@app.route('/api/predictive')
+def get_predictive():
+    #dataset = Predictive.query.limit(100).all()
+    dataset = Predictive.query.order_by(Predictive.id.desc()).limit(312).all()
+    dataset = dataset[::-1]
+    ret = []
+    for c in dataset:
+        ret.append(c.to_json())
+    return jsonify(ret)
 
 
 if __name__ == '__main__':
