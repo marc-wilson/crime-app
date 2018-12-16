@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify, send_from_directory
-from models import db, User, Case, Report, Predictive
+from models import db, User, Case, Report, Predictive, Favorite
 from passlib.hash import sha256_crypt
 from forms import LoginForm, SignupForm
 import simplejson as json
@@ -126,7 +126,12 @@ def saved_reports():
     if request.method == 'GET':
         user = User.query.filter_by(username=session['username']).first()
         saved_reports = Report.query.filter_by(uid=user.uid).all()
-        return render_template('saved-reports.html', title="Saved Reports", saved_reports=saved_reports, session_username=user.username)
+        
+        relationships = Favorite.query.filter_by(uid=user.uid).all()
+        cids_favorited = [f.cid for f in relationships]
+        favorited_reports = Case.query.filter(Case.id.in_(cids_favorited)).all()
+
+        return render_template('saved-reports.html', title="Saved Reports", saved_reports=saved_reports, favorited_reports=favorited_reports, session_username=user.username)
 
 
 # Forecast
@@ -139,14 +144,49 @@ def forecast():
 
 		return render_template('forecast.html', title='Forecast')
 
+# Favorite from details page
+@app.route('/favorite/<cid>', methods=['POST'])
+def favorite(cid):
+	session_user = User.query.filter_by(username=session['username']).first()
+	case_to_favorite = Case.query.filter_by(id=cid).first()
+
+	new_favorite = Favorite(uid=session_user.uid, cid=case_to_favorite.id)
+	new_url = "/detail?id="+str(case_to_favorite.id)
+
+	db.session.add(new_favorite)
+	db.session.commit()
+	return redirect(new_url)
+
+# Unfavorite from details page
+@app.route('/unfavorite/<cid>/<from_url>', methods=['POST'])
+def unfavorite(cid, from_url):
+	session_user = User.query.filter_by(username=session['username']).first()
+	case_to_unfavorite = Case.query.filter_by(id=cid).first()
+
+	delete_favorite = Favorite.query.filter_by(uid=session_user.uid, cid=case_to_unfavorite.id).first()
+
+	db.session.delete(delete_favorite)
+	db.session.commit()
+
+	if from_url == "saved_reports":
+		return redirect(url_for('saved_reports'))
+	else:
+		new_url = "/detail?id="+str(case_to_unfavorite.id)
+		return redirect(new_url)
+
 
 # Details
 @app.route('/detail')
 def detail():
 	if 'username' in session:
 		user = User.query.filter_by(username=session['username']).first()
-		return render_template('detail.html', title='Details', session_username=user.username)
-	return render_template('detail.html', title='Details')
+		case = request.args.get('id')
+		if Favorite.query.filter_by(uid=user.uid, cid=case).first():
+			favorited = True
+		else:
+			favorited = False
+		return render_template('detail.html', title='Details', session_username=user.username, favorited=favorited, case=case)
+	return render_template('detail.html', title='Details', favorited=False)
 
 
 

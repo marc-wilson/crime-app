@@ -63,6 +63,24 @@
                     <div id="type"></div>
                 </div>
             </div>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                {% if session_username is defined %}
+                    {% if favorited %}
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <form action="/unfavorite/{{ case }}/detail" method="POST">
+                                <button type="submit" class="btn btn-danger"> Delete </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <form action="/favorite/{{ case }}" method="POST">
+                                <button type="submit" class="btn btn-primary">
+                                    Save Report </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
         </main>
     </section>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNJaY3HMi14pAfUciPvbxFQ5rCyAJcQo" type="text/javascript"></script>
