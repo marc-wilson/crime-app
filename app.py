@@ -122,20 +122,27 @@ def saved_reports():
     if request.method == 'GET':
         user = User.query.filter_by(username=session['username']).first()
         saved_reports = Report.query.filter_by(uid=user.uid).all()
-        return render_template('saved-reports.html', title="Saved Reports", saved_reports=saved_reports)
+        return render_template('saved-reports.html', title="Saved Reports", saved_reports=saved_reports, session_username=user.username)
 
 
 # Forecast
 @app.route('/forecast', methods=['GET'])
 def forecast():
-    if request.method == 'GET':
-        return render_template('forecast.html', title='Forecast')
+	if request.method == 'GET':
+		if 'username' in session:
+			user = User.query.filter_by(username=session['username']).first()
+			return render_template('forecast.html', title='Forecast', session_username=user.username)
+
+		return render_template('forecast.html', title='Forecast')
 
 
 # Details
 @app.route('/detail')
 def detail():
-    return render_template('detail.html')
+	if 'username' in session:
+		user = User.query.filter_by(username=session['username']).first()
+		return render_template('detail.html', title='Details', session_username=user.username)
+	return render_template('detail.html', title='Details')
 
 
 
