@@ -106,6 +106,7 @@ def save():
         # report = Report(type=typeFilter, year=int(yearFilter), district=int(districtFilter), uid=user.uid)
         db.session.add(report)
         db.session.commit()
+        flash('Report saved!')
     return jsonify( { 'result': True } )
 
 

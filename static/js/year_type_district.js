@@ -293,9 +293,9 @@ class Index {
         data.append('type', this._type);
         data.append('district', this._district);
         data.append('year', this._year);
-        console.log(data);
-        const result = await this._httpClient.post('/save', data);
-        console.log(result);
+        await this._httpClient.post('/save', data);
+        const flash = new Loader('Report Saved!');
+        setTimeout( () => flash.destroy(), 2000 );
     }
 
     onRowClick(data) {

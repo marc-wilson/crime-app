@@ -6,9 +6,9 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../static/styles/layout.css" rel="stylesheet"/>
     {% if title %}
-    <title>Chicago Crime - {{ title }}</title>
+        <title>Chicago Crime - {{ title }}</title>
     {% else %}
-    <title>Chicago Crime</title>
+        <title>Chicago Crime</title>
     {% endif %}
 </head>
 <body>
@@ -35,11 +35,11 @@
         <hr>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+                <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
         {% endwith %}
     </div>
