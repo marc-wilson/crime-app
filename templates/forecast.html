@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     <link rel="stylesheet" href="../static/styles/forecast.css"/>
-    <section id="login">
-        <main>
-            Forecast
-        </main>
+    <section id="chart">
+    	<div>
+        	<svg width="1500" height="500" id="futureChart"></svg>
+    	</div>
     </section>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js"></script>
+	<script src="static/js/forecast.js"></script>
 
 {% endblock %}
