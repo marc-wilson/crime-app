@@ -67,12 +67,14 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user is None:
+            flash('Email is required')
             return redirect(url_for('login'))
         elif sha256_crypt.verify(password, user.password):
             session['username'] = user.username
             return redirect(url_for('index'))
         else:
             # TODO: Invalid Credentials
+            flash('Invalid login')
             return redirect(url_for('login'))
     else:
         return render_template('login.html', title="Log In", form=LoginForm())
@@ -97,14 +99,15 @@ def save():
         report.uid = user.uid
         if typeFilter:
             report.type = typeFilter
-        if yearFilter:
+        if yearFilter and yearFilter.isdigit():
             report.year = int(yearFilter)
-        if districtFilter:
+        if districtFilter and districtFilter.isdigit():
             report.district = int(districtFilter)
 
         # report = Report(type=typeFilter, year=int(yearFilter), district=int(districtFilter), uid=user.uid)
         db.session.add(report)
         db.session.commit()
+        flash('Report saved!')
     return jsonify( { 'result': True } )
 
 
@@ -151,7 +154,7 @@ def crimes_by_year():
     filters = []
     if primary_type:
         filters.append(Case.primary_type == primary_type)
-    if district:
+    if district and district.isdigit():
         filters.append(Case.district == int(district))
     query = query.filter(*filters)
     breakdown = query.all()
@@ -171,9 +174,9 @@ def crimes_by_type():
     district = request.args.get('district')
     filters = []
     query = db.session.query(Case.primary_type, func.count(Case.id)).group_by(Case.primary_type)
-    if year:
+    if year and year.isdigit():
         filters.append(Case.year == int(year))
-    if district:
+    if district and district.isdigit():
         filters.append(Case.district == int(district))
     query = query.filter(*filters)
     breakdown = query.all()
@@ -193,7 +196,7 @@ def crimes_by_district():
     primary_type = request.args.get('type')
     query = db.session.query(Case.district, func.count(Case.id)).group_by(Case.district)
     filters = []
-    if year:
+    if year and year.isdigit():
         filters.append(Case.year == int(year))
     if primary_type:
         filters.append(Case.primary_type == primary_type)
@@ -216,11 +219,11 @@ def get_dataset():
     district = request.args.get('district')
     filters = []
     query = db.session.query(Case).order_by(Case.date)
-    if year:
+    if year and year.isdigit():
         filters.append(Case.year == int(year))
     if primary_type:
         filters.append(Case.primary_type == primary_type)
-    if district:
+    if district and district.isdigit():
         filters.append(Case.district == int(district))
     query = query.filter(*filters).limit(100)
     dataset = query.all()

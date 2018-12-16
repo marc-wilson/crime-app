@@ -6,9 +6,9 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../static/styles/layout.css" rel="stylesheet"/>
     {% if title %}
-    <title>Chicago Crime - {{ title }}</title>
+        <title>Chicago Crime - {{ title }}</title>
     {% else %}
-    <title>Chicago Crime</title>
+        <title>Chicago Crime</title>
     {% endif %}
 </head>
 <body>
@@ -31,12 +31,24 @@
         {% endif %}
 
     </div>
+    <div class="conatiner">
+        <hr>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
 </header>
 <main>
     {% block content %}
     {% endblock %}
 </main>
-<footer>Footer</footer>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

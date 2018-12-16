@@ -111,13 +111,9 @@ completion.
 |   [X]    | Crime frequency JSON endpoint | Create endpoint to return frequency of crime in json format (for visualization) | 4        |
 |   [X]    | Crime Type D3 Viz             | Create d3 visualization of crime types                                          | 5        |
 |   [X]    | Crime by Area D3 Viz          | Create d3 visualization of crime by area                                        | 10       |
-|   [ ]    | Crime Frequency D3 Viz        | Create d3 visualization of frequency of crime                                   | 10       |
 |   [X]    | Create filters for dashboard  | Create filters for the visualizations in the main route                         | 10       |
 |   [X]    | Create Forecasting route      | Create the route for forecasting                                                | 1        |
-|   [ ]    | Create Forecasting page       | Create the html, css, and js for forecasting page                               | 5        |
-|   [ ]    | Create Profile route          | Create the route for the profile page                                           | 3        |
-|   [ ]    | Create Profile page           | Create the html, css and js for the profile page                                | 5        |
-|   [ ]    | Create profile json endpoints | Create the json endpoint needed to execute CRUD operations on saved reports     | 5        |
+|   [X]    | Create Forecasting page       | Create the html, css, and js for forecasting page                               | 5        |    | 5        |
 
 
 
@@ -130,7 +126,7 @@ In addition, we were able to create basic forecasting models for predicting the 
 also able to get a much better understanding on our target visualizations and how we will model them.
 
 
-### Project Milestone 2 (12/10/2018)
+#### Project Milestone 2 (12/10/2018)
 The second milestone was very productive. We were able to get our design defined, our endpoints and routes created and
 get the front end up and running. This milestone a lot of progress was made around getting the visualizations implemented
 and developing what we need for the saved reports and filtering. In addition, we implemented signup and login/logout
@@ -142,3 +138,10 @@ it to the database.
 
 Next week, we will finish up our application by cleaning up the current main page, finish implementing the saved reports
 functionality and wrap things up with the forecast page.
+
+
+#### Closing Notes (12/16/2018)
+We were able to to create a predictive model for forcasting and displaty a bar chart of predicted number of crimes to happend 
+in 2019. We were able to deliver features that enables the user save a custom report, view case
+details including the exact location of the crime rendered via google maps api and create visualizations
+that display the crime breakdowns in Chicago.
