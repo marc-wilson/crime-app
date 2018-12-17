@@ -26,6 +26,16 @@
                             <td><form method="POST" action="/delete/{{ report.rid }}"><button class="btn btn-danger" type="submit">Delete</button></form></td>
                         </tr>
                     {% endfor %}
+
+                    {% for favorite in favorited_reports %}
+                        <tr>
+                            <td>{{ favorite.date.year }}</td>
+                            <td>{{ favorite.district }}</td>
+                            <td>{{ favorite.primary_type }}</td>
+                            <td><a href="/detail?id={{ favorite.id }}" class="btn btn-primary">Open</a></td>
+                            <td><form method="POST" action="/unfavorite/{{ favorite.id }}/saved_reports"><button class="btn btn-danger" type="submit">Delete</button></form></td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </main>

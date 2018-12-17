@@ -134,3 +134,9 @@ class Predictive(db.Model):
             'multiplicative_terms_upper': self.multiplicative_terms_upper,
             'yhat': self.yhat
         }
+
+class Favorite(db.Model):
+    __tablename__ = 'favorites'
+    fid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.Integer, db.ForeignKey('users.uid'), nullable=False)
+    cid = db.Column(db.Integer, db.ForeignKey('cases.id'), nullable=False)
